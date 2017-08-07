@@ -1,0 +1,374 @@
+\documentclass[a4paper,landscape]{article}
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{svg}
+\usepackage{amssymb,amsfonts,bbm,mathrsfs,stmaryrd}
+
+%%% Theorems and references %%%
+\usepackage[amsmath,thmmarks]{ntheorem}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+\usepackage{listings}
+\usepackage{caption}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{%
+  \parbox{\textwidth}{\colorbox{gray}{\parbox{\textwidth}{#1#2#3}}\vskip-4pt}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+\lstset{frame=lrb,xleftmargin=\fboxsep,xrightmargin=-\fboxsep}
+
+
+\theoremstyle{change}
+
+\newtheorem{defn}[equation]{Definition}
+\newtheorem{definition}[equation]{Definition}
+\newtheorem{thm}[equation]{Theorem}
+\newtheorem{prop}[equation]{Proposition}
+\newtheorem{proposition}[equation]{Proposition}
+\newtheorem{conjecture}[equation]{Conjecture}
+\newtheorem{lemma}[equation]{Lemma}
+\newtheorem{cor}[equation]{Corollary}
+\newtheorem{exercise}[equation]{Exercise}
+\newtheorem{example}[equation]{Example}
+
+
+\theorembodyfont{\upshape}
+\theoremsymbol{\ensuremath{\Diamond}}
+\newtheorem{eg}[equation]{Example}
+\newtheorem{remark}[equation]{Remark}
+
+\theoremstyle{nonumberplain}
+
+\theoremsymbol{\ensuremath{\Box}}
+\newtheorem{proof}{Proof}
+
+\qedsymbol{\ensuremath{\Box}}
+
+\creflabelformat{equation}{#2(#1)#3} 
+
+\crefname{equation}{equation}{equations}
+\crefname{eg}{example}{examples}
+\crefname{defn}{definition}{definitions}
+\crefname{prop}{proposition}{propositions}
+\crefname{thm}{Theorem}{Theorems}
+\crefname{lemma}{lemma}{lemmas}
+\crefname{cor}{corollary}{corollaries}
+\crefname{remark}{remark}{remarks}
+\crefname{section}{Section}{Sections}
+\crefname{subsection}{Section}{Sections}
+
+\crefformat{equation}{#2equation~(#1)#3} 
+\crefformat{eg}{#2example~#1#3} 
+\crefformat{defn}{#2definition~#1#3} 
+\crefformat{prop}{#2proposition~#1#3} 
+\crefformat{thm}{#2Theorem~#1#3} 
+\crefformat{lemma}{#2lemma~#1#3} 
+\crefformat{cor}{#2corollary~#1#3} 
+\crefformat{remark}{#2remark~#1#3} 
+\crefformat{section}{#2Section~#1#3} 
+\crefformat{subsection}{#2Section~#1#3} 
+
+\Crefformat{equation}{#2Equation~(#1)#3} 
+\Crefformat{eg}{#2Example~#1#3} 
+\Crefformat{defn}{#2Definition~#1#3} 
+\Crefformat{prop}{#2Proposition~#1#3} 
+\Crefformat{thm}{#2Theorem~#1#3} 
+\Crefformat{lemma}{#2Lemma~#1#3} 
+\Crefformat{cor}{#2Corollary~#1#3} 
+\Crefformat{remark}{#2Remark~#1#3} 
+\Crefformat{section}{#2Section~#1#3} 
+\Crefformat{subsection}{#2Section~#1#3} 
+
+
+\numberwithin{equation}{section}
+
+%%% Letters, Symbols, Words %%%
+
+\newcommand\Aa{{\cal A}}
+\newcommand\Oo{{\cal O}}
+\newcommand\Uu{{\cal U}}
+\newcommand\NN{{\mathbb N}}
+\newcommand\RR{{\mathbb R}}
+\newcommand\Ddd{\mathscr{D}}
+\renewcommand{\d}{{\,\rm d}}
+\newcommand\T{{\rm T}}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+
+\newcommand\mono{\hookrightarrow}
+\newcommand\sminus{\smallsetminus}
+\newcommand\st{{\textrm{ s.t.\ }}}
+\newcommand\ket[1]{\mid #1 \rangle}
+\newcommand\bra[1]{\langle #1 \mid}
+\newcommand\setof[1]{\{ #1 \}}
+\newcommand\lt{<}
+\newcommand\abs[1]{ \mid #1 \mid }
+\newcommand\pfrac[2]{\frac{\partial{#1}}{\partial #2}}
+\newcommand\vev[1]{\langle #1 \rangle}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\dVol}{dVol}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\fiber}{fiber}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\tr}{tr}
+
+\usepackage{pgf,tikz}
+\usetikzlibrary{cd}
+%%%<
+\usepackage{verbatim}
+%%%>
+
+\usetikzlibrary{calc,arrows}
+\usepackage{amsmath}
+\usepackage[left=1cm,right=1cm]{geometry}
+
+\usetikzlibrary{arrows,shapes.gates.logic.US,shapes.gates.logic.IEC,calc}
+\tikzstyle{branch}=[fill,shape=circle,minimum size=3pt,inner sep=0pt]
+
+\pagestyle{empty}
+
+\makeatletter
+
+% Data Flip Flip (DFF) shape
+\pgfdeclareshape{dff}{
+  % The 'minimum width' and 'minimum height' keys, not the content, determine
+  % the size
+  \savedanchor\northeast{%
+    \pgfmathsetlength\pgf@x{\pgfshapeminwidth}%
+    \pgfmathsetlength\pgf@y{\pgfshapeminheight}%
+    \pgf@x=0.25\pgf@x
+    \pgf@y=0.25\pgf@y
+  }
+  % This is redundant, but makes some things easier:
+  \savedanchor\southwest{%
+    \pgfmathsetlength\pgf@x{\pgfshapeminwidth}%
+    \pgfmathsetlength\pgf@y{\pgfshapeminheight}%
+    \pgf@x=-0.25\pgf@x
+    \pgf@y=-0.25\pgf@y
+  }
+  % Inherit from rectangle
+  \inheritanchorborder[from=rectangle]
+
+  % Define same anchor a normal rectangle has
+  \anchor{center}{\pgfpointorigin}
+  \anchor{north}{\northeast \pgf@x=0pt}
+  \anchor{east}{\northeast \pgf@y=0pt}
+  \anchor{south}{\southwest \pgf@x=0pt}
+  \anchor{west}{\southwest \pgf@y=0pt}
+  \anchor{north east}{\northeast}
+  \anchor{north west}{\northeast \pgf@x=-\pgf@x}
+  \anchor{south west}{\southwest}
+  \anchor{south east}{\southwest \pgf@x=-\pgf@x}
+  \anchor{text}{
+    \pgfpointorigin
+    \advance\pgf@x by -.5\wd\pgfnodeparttextbox%
+    \advance\pgf@y by -.5\ht\pgfnodeparttextbox%
+    \advance\pgf@y by +.5\dp\pgfnodeparttextbox%
+  }
+
+  % Define anchors for signal ports
+  \anchor{D}{
+    \pgf@process{\northeast}%
+    \pgf@x=-1\pgf@x%
+    \pgf@y=.5\pgf@y%
+  }
+  \anchor{CLK}{
+    \pgf@process{\northeast}%
+    \pgf@x=-1\pgf@x%
+    \pgf@y=-.5\pgf@y%
+  }
+  \anchor{Q}{
+    \pgf@process{\northeast}%
+    \pgf@y=.5\pgf@y%
+  }
+  \anchor{Qn}{
+    \pgf@process{\northeast}%
+    \pgf@y=-.5\pgf@y%
+  }
+  % Draw the rectangle box and the port labels
+  \backgroundpath{
+    % Rectangle box
+    \pgfpathrectanglecorners{\southwest}{\northeast}
+    % Angle (>) for clock input
+    \pgf@anchor@dff@CLK
+    \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+    \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+    \pgf@xc=\pgf@x \pgf@yc=\pgf@y
+    \pgfmathsetlength\pgf@x{1.6ex} % size depends on font size
+    \advance\pgf@ya by \pgf@x
+    \advance\pgf@xb by \pgf@x
+    \advance\pgf@yc by -\pgf@x
+    \pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+    \pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+    \pgfpathlineto{\pgfpoint{\pgf@xc}{\pgf@yc}}
+    \pgfclosepath
+
+    % Draw port labels
+    \begingroup
+    \tikzset{flip flop/port labels} % Use font from this style
+    \tikz@textfont
+
+    \pgf@anchor@dff@D
+    \pgftext[left,base,at={\pgfpoint{\pgf@x}{\pgf@y}},x=\pgfshapeinnerxsep]{\raisebox{-0.75ex}{D}}
+
+    \pgf@anchor@dff@Q
+    \pgftext[right,base,at={\pgfpoint{\pgf@x}{\pgf@y}},x=-\pgfshapeinnerxsep]{\raisebox{-.75ex}{Q}}
+
+    \pgf@anchor@dff@Qn
+    \pgftext[right,base,at={\pgfpoint{\pgf@x}{\pgf@y}},x=-\pgfshapeinnerxsep]{\raisebox{-.75ex}{$\overline{\mbox{Q}}$}}
+
+    \endgroup
+  }
+}
+
+% Key to add font macros to the current font
+\tikzset{add font/.code={\expandafter\def\expandafter\tikz@textfont\expandafter{\tikz@textfont#1}}}
+
+% Define default style for this node
+\tikzset{flip flop/port labels/.style={font=\sffamily\scriptsize}}
+\tikzset{every dff node/.style={draw,minimum width=2cm,minimum
+    height=2.828427125cm,very thick,inner sep=1mm,outer sep=0pt,cap=round,add
+    font=\sffamily}}
+
+\makeatother
+
+\title{Hamiltonian Learner ReadMe}
+
+\begin{document}
+
+\maketitle
+
+\section{Mathematical Background}
+
+\subsection{Hamiltonian Mechanics}
+
+Let $\mathbb{R}^{2n}$ be our phase spaces with coordinates and conjugate momenta $x_i$ and $p_i$
+
+\begin{eqnarray*}
+\frac{dx_i}{dt} &=& \setof{H,x_i} = \frac{dH}{dp_i}\\
+\frac{dp_i}{dt} &=& \setof{H,p_i} = - \frac{dH}{dx_i}\\
+\end{eqnarray*}
+
+\subsection{Algebraic Varieties}
+
+Let $I$ be an ideal in $k[x_1 \cdots x_d]$. Demanding that all the functions in that ideal vanish determines a variety in $k^d$. $k$ will be $\mathbb{R}$ but I don't want to get into the subtleties of base change to algebraic closure so some of the statements aren't strctly true.
+
+\begin{example}[Circle]
+$I = (x^2 + y^2 - 1) \subset \mathbb{R}[x,y]$
+\end{example}
+
+\subsection{Lagrangian Correspondences}
+
+\begin{definition}[Lagrangian Submanifold]
+\end{definition}
+
+Consider a pair of symplectic manifolds $X_{in,out}$. This stands for the inputs and outputs of a system. For example, it could be a black boxed electronic circuit. For each of the input wires there is an $\mathbb{R}^2$ for the current and voltage. These form a canonical conjugate pair for each of the wires. So for a circuit with $n$ input wires and $m$ output wires we get $\mathbb{R}^{2n}$ and $\mathbb{R}^{2m}$. To specify what the circuit is at this black boxed level we specify a morphism $X_{in} \to X_{out}$ in the following sense.
+
+\begin{definition}[LagCor]
+A morphism between symplectic manifolds in the ``category" LagCor is a Lagrangian correspondence. That is a Lagrangian submanifold of $X_{in} \times \bar{X}_{out}$. Composition of $L_{12}$ and $L_{23}$ is given by pullback if possible. That is a transversality condition with the diagonal in $X_2 \times \bar{X}_2$.
+
+\begin{tikzcd}
+& & L_{13} \arrow[dr] \arrow[dl]\\
+& L_{12} \arrow[dr] \arrow[dl] & & L_{23} \arrow[dl] \arrow[dr]\\
+X_1 & & X_2 & & X_3
+\end{tikzcd}
+
+\end{definition}
+
+Composition is simply piping some outputs into other inputs. By moving some wires around you are allowed to perform partial gluings so that you can feed some outputs of system 1 into system 2 and leave some outputs as free to go all the way to the end. Similarly for inputs to system 2 that don't come from system 1 but instead straight from the begining.
+
+\begin{definition}[Graphs of symplectomorphisms]
+For $X_1 = X_2$ a large class of morphisms $X_1 \to X_2$ is given by the graphs of symplectomorphisms $\phi \; X_1 \to X_2$. A symplectomorphism mean it is a diffeomorphism that preserve $\omega$. But these are special in the sense that if you specify the input, you uniquely know the output. Sets and relations is better than sets and functions.
+\end{definition}
+
+\subsubsection{Singular Lagrangians}
+
+We might have systems where the vanishing locus is no longer a manifold but is stratified. An example that shows up often is hysterisis loops.
+
+\begin{definition}[Magnetic Hysterisis]
+Let th symplectic manifold be $\mathbb{R}^2$ with magnetization and applied field. Then a material defines a singular "1-dimensional" subset. A picture describes it best.
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[scale=.2]{Hysteresis.png}
+\caption{Hysterisis loop}
+\end{figure}
+
+\end{definition}
+
+This is thought of as a system with 0 inputs and $\mathbb{R}^2$ output. The dynamics is then constrained to this Lagrangian because once you specify the applied field you are stuck with either 1 or 2 values for the magnetization because of the equations of state. It is not a Lagrangian submanifold only because of those triple points.
+
+\section{Implementation}
+
+\subsection{Time Trajectory}
+
+Input some traces of trajectories in phase space. That is $x_i (t_j) = x_{ij}$ and $p_i (t_j)=p_{ij}$ for $t_j$ a discetization of a time interval. The loss function is given by comparing to Hamilton's equations.
+
+\begin{eqnarray*}
+\Delta x_{ij} &=& \frac{x_{i,j+1} - x_{ij}}{t_{j+1} - t_j} \approx \frac{dx_i}{dt} (t_j)\\
+\Delta p_{ij} &=& \frac{p_{i,j+1} - p_{ij}}{t_{j+1} - t_j} \approx \frac{dp_i}{dt} (t_j)\\
+L &=& \sum_j \sum_i (\Delta x_i (t_j)  - \frac{dH}{dp_i} (x_{ij} , p_{ij} ))^2 + (\Delta p_i (t_j)  + \frac{dH}{dx_i} (x_{ij} , p_{ij} ))^2
+\end{eqnarray*}
+
+The possible Hamiltonians are specified as giving the terms that are allowed to show up. For exampe:
+
+\begin{eqnarray*}
+H_{pol,3} &=& A + Bx + Cp + Dx^2 + E xp + Fp^2 + G x^3 + H x^2 p + I xp^2 + J p^3\\
+H_{trig,1} &=& A \cos B x + C \sin D x + E \cos F x + G \sin H x\\
+H_{exp,1} &=& A e^{Bx} + C e^{Dp}\\
+\end{eqnarray*}
+
+These capital letter unknowns are what we optimize over.
+
+\subsection{Algebraic Variety Learning}
+
+First ignore the dynamical system aspect and consider the problem of giving a series of points $x_{ij}$ where $i$ indexes the space $\mathbb{R}^n$ while $j$ indexes which data point this is. We are told that they come from an algebraic variety of low degree and the task is to determine the defining functions that cut out the variety. For example, if we know it is cut out by a real plane quadric.
+
+\begin{eqnarray*}
+f &=& A + B x_1 + C x_2 + D x_1^2 + E x_1 x_2 + F x_2^2\\
+\end{eqnarray*}
+
+\begin{eqnarray*}
+\begin{pmatrix}
+1 & x_{1,j} & x_{2,j} & x_{1,j}^2 & x_{1,j} x_{2,j} & x_{2,j}^2\\
+\cdots\\
+\end{pmatrix}
+\begin{pmatrix}
+A\\
+B\\
+C\\
+D\\
+E\\
+F
+\end{pmatrix}
+&=&
+\begin{pmatrix}
+0\\
+\cdots
+\end{pmatrix}
+\end{eqnarray*}
+
+Giving one function means cutting a codimension 1 variety typically. So to give a codimension m variety, we should give $m$ such functions which are independent of each other. Then our variety is the vanishing set $V(I)$ for the ideal $I = (f_1 \cdots f_m)$.
+
+However because of noise we cannot expect exactly $0$. Instead we say that we seek to minimize the squares of each of the rows of the RHS. That turns into a quadratic optimization.
+
+\subsection{Lagrangian Subvariety Learning}
+
+If we are told that we are learning a coisotropic variety of codimension $m$ that amounts to giving $m$ such functios as above but now there is the constraint that all of the $f_i$ Poisson commute. These are quadratic constraints in the capital letter unknown variables.
+
+\begin{example}[Codimension 2 in 4d]
+
+\begin{eqnarray*}
+f_1 &=& A_1 + B_1 x_1 + C_1 x_2 + D_1 p_1 + E_1 p_2 + F_1 x_1^2 + G_1 x_2^2 + H_1 x_1 x_2\\
+f_2 &=& A_2 + B_2 x_1 + C_2 x_2 + D_2 p_1 + E_2 p_2 + F_2 x_1^2 + G_2 x_2^2 + H_2 x_1 x_2\\
+\setof{ f_1 , f_2 } &=& B_1 D_2 + C_1 E_2 - D_1 B_2 - E_1 C_2 + \cdots\\
+\end{eqnarray*}
+
+\end{example}
+
+At the very extreme for a Lagrangian submanifold in $\mathbb{R}^{2n}$ we give a codimension $n$ coisotropic variety. This is the case of an integrable system where the $f_i$ are the conserved quantities that define the action coordinates in action-angle variable system formalism.
+
+\end{document}
