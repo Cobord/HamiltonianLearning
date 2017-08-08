@@ -301,6 +301,33 @@ Let th symplectic manifold be $\mathbb{R}^2$ with magnetization and applied fiel
 
 This is thought of as a system with 0 inputs and $\mathbb{R}^2$ output. The dynamics is then constrained to this Lagrangian because once you specify the applied field you are stuck with either 1 or 2 values for the magnetization because of the equations of state. It is not a Lagrangian submanifold only because of those triple points.
 
+\section{Down from Infinite Dimensional}
+
+Consider the problem for a PDE instead of an ODE. Let the space be $M$
+
+\begin{eqnarray*}
+\omega &=& \int_M \partial A \wedge \partial B\\
+\end{eqnarray*}
+
+Give a basis of $L^2 ( \Omega^\bullet (M))$ so that the integration pairing is adapted. Will explain by example on $\Omega^0 (S^2)$ and $\Omega^2 (S^2)$
+
+\begin{eqnarray*}
+e_{lm,0} &=& Y_l^m (\theta , \phi)^*\\
+e_{lm,2} &=& Y_l^m (\theta , \phi) dvol_{S^2}\\
+\end{eqnarray*}
+
+A complexified $0$ form $A$ and a complexified $2$ form $B$ can be decomposed in this basis and as can their variations.
+
+\begin{eqnarray*}
+\omega &=& \sum_{lm} \partial_{lm0} A \wedge \partial_{lm2} B + \cdots\\
+\end{eqnarray*}
+
+So this is taking a function on $S^2 \times \mathbb{R}$, decomposing each time slice into spherical harmonics and then asking if we can analyze the associated infinite dimensional Hamiltonian system. Of course realistically, it should be reasonable to approximate with some sufficient $L$ cutoff. There will be some relatively small $n(L)$ modes kept. This can then be fed into the machine with $\mathbb{R}^{2(n(L))}$.
+
+\begin{definition}[Kaluza-Klein Reduction]
+This is in particular a reduction from a $M \times \mathbb{R}$ spacetime to just mechanics with only $\mathbb{R}$ for time and no space.
+\end{definition}
+
 \section{Implementation}
 
 \subsection{Time Trajectory}
