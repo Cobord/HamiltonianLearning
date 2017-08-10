@@ -252,6 +252,39 @@ Let $\mathbb{R}^{2n}$ be our phase spaces with coordinates and conjugate momenta
 \frac{dp_i}{dt} &=& \setof{H,p_i} = - \frac{dH}{dx_i}\\
 \end{eqnarray*}
 
+This is not strictly mechanics despite the name. As an example:
+
+\begin{example}[Chemical Rate Equations]
+
+A Volterra equation is of the form:
+
+\begin{eqnarray*}
+\dot{x}_j &=& \epsilon_j x_j + \frac{1}{\beta_j} \sum_k a_{jk} x_j x_k\\
+\dot{x}_j &=& \epsilon_j x_j + \sum_k a_{jk} x_j x_k\\
+a_{jk} &=& - a_{kj}\\
+\end{eqnarray*}
+
+where the second line is by rescaling variables. This can be turned into a Hamiltonian system by:
+
+\begin{eqnarray*}
+Q_j &\equiv& \int_0^t x_j (\tau ) d\tau\\
+\ddot{Q}_j &=& \epsilon_j Q_j + \sum_{k=1}^n a_{jk} \dot{Q}_j \dot{Q}_k\\
+H &\equiv& \sum \epsilon_j Q_j - \dot{Q}_j\\
+\dot{H} &=& 0\\
+P_j &\equiv& \log \dot{Q}_j - \frac{1}{2} \sum a_{jk} Q_k\\
+H &=& \sum_j \epsilon_j Q_j - \sum_j e^{P_j + \frac{1}{2} \sum_k a_{jk} Q_k}\\
+\dot{P}_j &=& \frac{\partial H}{\partial Q_j} = \epsilon_j - \sum_l e^{P_l + \frac{1}{2} \sum_k a_{lk} Q_k} \frac{1}{2} a_{lj}\\
+\dot{Q}_j &=& - \frac{\partial H}{\partial P_j} = \sum_l e^{P_l + \frac{1}{2} \sum a_{lk} Q_k }\\
+I_j &\equiv& P_j - \frac{1}{2} \sum a_{jk} Q_k - \epsilon_j t\\
+\dot{I}_j &=& 0\\
+I_j = I_j (0) &=& \log x_j (0)\\
+\setof{I_j , I_k } &=& a_{jk}\\
+\end{eqnarray*}
+
+This means that we may extract the underlying system by using an exponential model Hamiltonian.
+
+\end{example}
+
 \subsection{Algebraic Varieties}
 
 Let $I$ be an ideal in $k[x_1 \cdots x_d]$. Demanding that all the functions in that ideal vanish determines a variety in $k^d$. $k$ will be $\mathbb{R}$ but I don't want to get into the subtleties of base change to algebraic closure so some of the statements aren't strctly true.
