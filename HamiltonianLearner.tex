@@ -317,6 +317,8 @@ Composition is simply piping some outputs into other inputs. By moving some wire
 For $X_1 = X_2$ a large class of morphisms $X_1 \to X_2$ is given by the graphs of symplectomorphisms $\phi \; X_1 \to X_2$. A symplectomorphism mean it is a diffeomorphism that preserve $\omega$. But these are special in the sense that if you specify the input, you uniquely know the output. Sets and relations is better than sets and functions.
 \end{definition}
 
+Nicely provided in \url{https://ncatlab.org/nlab/show/prequantized+Lagrangian+correspondence} with more context/generality. Mostly unneeded for now, though it provides the mindset.
+
 \subsubsection{Singular Lagrangians}
 
 We might have systems where the vanishing locus is no longer a manifold but is stratified. An example that shows up often is hysterisis loops.
@@ -339,8 +341,10 @@ This is thought of as a system with 0 inputs and $\mathbb{R}^2$ output. The dyna
 Consider the problem for a PDE instead of an ODE. Let the space be $M$
 
 \begin{eqnarray*}
-\omega &=& \int_M \partial A \wedge \partial B\\
+\omega &=& \int_M \delta A \wedge \delta B\\
 \end{eqnarray*}
+
+See BF in BV-BFV for more explanation.
 
 Give a basis of $L^2 ( \Omega^\bullet (M))$ so that the integration pairing is adapted. Will explain by example on $\Omega^0 (S^2)$ and $\Omega^2 (S^2)$
 
@@ -352,13 +356,17 @@ e_{lm,2} &=& Y_l^m (\theta , \phi) dvol_{S^2}\\
 A complexified $0$ form $A$ and a complexified $2$ form $B$ can be decomposed in this basis and as can their variations.
 
 \begin{eqnarray*}
-\omega &=& \sum_{lm} \partial_{lm0} A \wedge \partial_{lm2} B + \cdots\\
+\omega &=& \sum_{lm} \delta_{lm0} A \wedge \delta_{lm2} B + \cdots\\
 \end{eqnarray*}
 
 So this is taking a function on $S^2 \times \mathbb{R}$, decomposing each time slice into spherical harmonics and then asking if we can analyze the associated infinite dimensional Hamiltonian system. Of course realistically, it should be reasonable to approximate with some sufficient $L$ cutoff. There will be some relatively small $n(L)$ modes kept. This can then be fed into the machine with $\mathbb{R}^{2(n(L))}$.
 
+\begin{example}[Weather]
+Too bad typically don't have the data of the canonically conjugate field.
+\end{example}
+
 \begin{definition}[Kaluza-Klein Reduction]
-This is in particular a reduction from a $M \times \mathbb{R}$ spacetime to just mechanics with only $\mathbb{R}$ for time and no space.
+This is in particular a reduction from a $M \times \mathbb{R}$ spacetime to just mechanics with only $\mathbb{R}$ for time and no space. The cost is the infinite tower that is introduced like the fact that $lm$ run over a countably infinite range.
 \end{definition}
 
 \section{Implementation}
@@ -414,6 +422,11 @@ F
 Giving one function means cutting a codimension 1 variety typically. So to give a codimension m variety, we should give $m$ such functions which are independent of each other. Then our variety is the vanishing set $V(I)$ for the ideal $I = (f_1 \cdots f_m)$.
 
 However because of noise we cannot expect exactly $0$. Instead we say that we seek to minimize the squares of each of the rows of the RHS. That turns into a quadratic optimization.
+
+\begin{cor}
+We can parallelize over the rows. That is we have some solutions that work for a subset of rows, and another bunch of solutions that work for another subset of the rows. If there is something in common there, we have a solution for the composite.\\
+This may or may not provide any advantage.
+\end{cor}
 
 \subsection{Lagrangian Subvariety Learning}
 
