@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+#import tensorflow as tf
 from sklearn.preprocessing import PolynomialFeatures
 
 dataPoints = np.array([[1.0,0],
