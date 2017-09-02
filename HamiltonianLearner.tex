@@ -336,6 +336,12 @@ Let th symplectic manifold be $\mathbb{R}^2$ with magnetization and applied fiel
 
 This is thought of as a system with 0 inputs and $\mathbb{R}^2$ output. The dynamics is then constrained to this Lagrangian because once you specify the applied field you are stuck with either 1 or 2 values for the magnetization because of the equations of state. It is not a Lagrangian submanifold only because of those triple points.
 
+\subsection{Doubling Trick}
+
+Recall from Baez-Fong-... how certain linear circuit elements provide affine Lagrangian subspaces of current and voltage for inputs and outputs. This straightforward construction won't work for a memristor. However, we can double the number of variables by appending $\int_{-\infty}^t V$ and $\int_{-\infty}^t I$ as well. Because they have a fundamentally different nature compared to the original $V$ and $I$ give them homological degree 1. That is our new phase space is $T^* [1] \mathbb{R}^2$. This is the same trick used in the Poisson Sigma Model. You take a symplectic manifold $\mathbb{R}^2$, regard it merely as Poisson and then form a 1-shifted symplectic space by taking the odd cotangent bundle. Now instead of looking for Lagrangian Correspondences between $\mathbb{R}^2_{in}$ and $\mathbb{R}^2_{out}$, you look for Lagrangian correspondences between $T^*[1] \mathbb{R}^2_{in}$ and $T^* [1] \mathbb{R}^2_{out}$. This is the general situation that subsumes Baez et al, but also allows more general circuit elements.
+
+This is especially satisfying because that is the first step in Kontsevich quantization. It is the construction you needed to do anyway when quantizing, so it is satisfying to see it being useful even in the classical world.
+
 \section{Down from Infinite Dimensional}
 
 Consider the problem for a PDE instead of an ODE. Let the space be $M$
