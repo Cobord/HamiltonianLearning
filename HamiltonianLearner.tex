@@ -317,6 +317,10 @@ Composition is simply piping some outputs into other inputs. By moving some wire
 For $X_1 = X_2$ a large class of morphisms $X_1 \to X_2$ is given by the graphs of symplectomorphisms $\phi \; X_1 \to X_2$. A symplectomorphism mean it is a diffeomorphism that preserve $\omega$. But these are special in the sense that if you specify the input, you uniquely know the output. Sets and relations is better than sets and functions.
 \end{definition}
 
+\begin{example}
+Suppose we observe the state of a system at times $t_1$ and $t_2$. There is some symplectomorphism that implements this discretized dynamics. In fact it might be the time $t_2 - t_1$ flow of a (possibly time dependent) Hamiltonian. If we observe enough such state pairs, we have enough information to approximately reconstruct a Lagrangian correspondence (At least the closest approximation in the class of low degree polynomial varieties).
+\end{example}
+
 Nicely provided in \url{https://ncatlab.org/nlab/show/prequantized+Lagrangian+correspondence} with more context/generality. Mostly unneeded for now, though it provides the mindset.
 
 \subsubsection{Singular Lagrangians}
@@ -449,5 +453,25 @@ f_2 &=& A_2 + B_2 x_1 + C_2 x_2 + D_2 p_1 + E_2 p_2 + F_2 x_1^2 + G_2 x_2^2 + H_
 \end{example}
 
 At the very extreme for a Lagrangian submanifold in $\mathbb{R}^{2n}$ we give a codimension $n$ coisotropic variety. This is the case of an integrable system where the $f_i$ are the conserved quantities that define the action coordinates in action-angle variable system formalism.
+
+\section{Applications}
+
+\subsection{Circuits}
+
+Already described
+
+\subsection{Robotic Control}
+
+For a robot moving in 2 or 3 dimensions the configuration space is $SE(2)$ or $SE(3)$ or some products thereof for describing position and framing orientation. This means the phase space will be $T^* SE(3)$ etc. The dynamics will take place on that. To implement this we must restrict to a symplectic coordinate chart. If we stay within that one chart there is no problem with reducing to this already established problem.
+
+Often the problem is presented within the realm of optimal control. That would require adjoining the control variables to the Hamiltonian as well.
+
+\subsection{Climate Data}
+
+First must reduce from the infinite dimensional situation of functions on a sphere to a finite dimensional phase space which only keeps track of the low lying modes in some frame (generalized basis) of $L^2 ( S^2 , d \Omega )$. You plot the dynamics of these coefficents which is a lossy compression and hope to learn the dynamics there. This can be done iteratrively by starting with only keeping the 0th order, learning the dynamics then using that information for the initial guess in the next step and so on until the compression loss is sufficiently low.
+
+\subsection{Financial/Biodiversity}
+
+Is there a candidate for the conjugate variables for price data? Could just use the time derivative. Typically these are modeled as ARIMA processes, but the interactions between various entities should be close to generalized Lotka-Volterra type just like other predator-prey-cooperation systems. Already mentioned Hamiltonian realization of these sorts of networks.
 
 \end{document}
