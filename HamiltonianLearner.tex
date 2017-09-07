@@ -460,11 +460,106 @@ At the very extreme for a Lagrangian submanifold in $\mathbb{R}^{2n}$ we give a 
 
 Already described
 
-\subsection{Robotic Control}
+\subsection{Robotic Control and other Optimal Control problems}
 
 For a robot moving in 2 or 3 dimensions the configuration space is $SE(2)$ or $SE(3)$ or some products thereof for describing position and framing orientation. This means the phase space will be $T^* SE(3)$ etc. The dynamics will take place on that. To implement this we must restrict to a symplectic coordinate chart. If we stay within that one chart there is no problem with reducing to this already established problem.
 
 Often the problem is presented within the realm of optimal control. That would require adjoining the control variables to the Hamiltonian as well.
+
+\begin{thm}[Hamilton Jacobi]
+
+Let $P \; \; \alpha$ be an exact symplectic manifold not necessarily a cotangent bundle with Liouville form. Get a function on parameterized paths $\gamma$ by:
+
+\begin{eqnarray*}
+S (\gamma ) &=& \int_{[\gamma]} \alpha - \int_{t_0}^{t_1} H( \gamma (t) )\\
+\end{eqnarray*}
+
+where $[\gamma]$ is the unparameterized path. When not exact, $\alpha$ is now a connection on a line bundle so $S$ is now valued as a section instead.
+
+\begin{tikzcd}
+& \mathcal{L} \arrow[d]\\
+Paths(P) \arrow[r] \arrow[r,shift left] & (P,\omega)\\
+\end{tikzcd}
+
+\end{thm}
+
+\begin{thm}[Hamilton-Jacobi-Bellman]
+\begin{eqnarray*}
+V ( x(0) , 0 ) &=& min_u L\\
+L &=& \int_0^T C ( x(t), u(t)) dt + D(x(T))\\
+\dot{x} (t) &=& F ( x(t), u(t) )\\
+\dot{V} (x ,t ) &+& min_u \nabla V(x,t) \cdot F(x,u) + C(x,u) = 0\\
+V(x,T) &=& D(x)\\
+\end{eqnarray*}
+
+We then solve this PDE with that terminal condition for $V(x,t)$
+
+\end{thm}
+
+\begin{proof}
+\begin{eqnarray*}
+V(x(t),t) &=& min_u  \big( V(x(t+dt),t+dt) + \int_t^{t+dt} C(x(s),u(s)) ds \big)\\
+&\approx& min_u  \big( V(x(t),t) + \dot{V}(x(t),t) dt + \nabla V ( x(t) , t) \cdot \dot{x}(t) dt + \int_t^{t+dt} C(x(s),u(s)) ds \big)\\
+0 &\approx& min_u  \big( \dot{V}(x(t),t) dt + \nabla V ( x(t) , t) \cdot \dot{x}(t) dt + C(x(t),u(t)) dt \big)\\
+\end{eqnarray*}
+
+where the error is $o(dt)$. Taking this limit then provides the required PDE.
+
+\end{proof}
+
+\begin{lemma}[Principle of Optimality]
+An optimal control policy $u(t)$ has the property that if we drop the first step, the remaining policy is optimal for the new state. In other words, an optimal policy is like a shark it doesn't need to look back. It doesn't have a neck. \url{http://www.imdb.com/title/tt0584440/quotes}.
+\end{lemma}
+
+\begin{definition}[LQR]
+\begin{eqnarray*}
+\dot{x}(t) &=& A (t) x(t) + B(t) u(t)\\
+J = \frac{1}{2} x^T (t_1) F(t_1 ) x (t_1) &+& \frac{1}{2} \int_{t_0}^{t_1} ( x^T (t) Q (t) x (t) + u^T (t) R(t) u(t)  ) dt\\
+x (t_0 ) &=& x_0\\
+u(t) &=& - K(t) x(t)\\
+K(t) &=& R^{-1}(t) B^T(t) P (t)\\
+A^T (t) P(t) + P(t) A(t) &-& ( P(t) B(t) ) R^{-1}(t) ( B^T(t) P(t) ) + Q(t) = - \dot{P} (t)\\
+P(t_1 ) &=& P_f\\
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}[Infinite Horizon Problem]
+\begin{eqnarray*}
+\dot{x} &=& Ax + Bu\\
+J &=& \frac{1}{2} \int_{0}^{\infty} ( x^T Q x + u^T R u  ) dt\\
+x (0 ) &=& x_0\\
+u &=& - K x\\
+K &=& R^{-1} ( B^T P  )\\
+A^T P + P A &-& ( P B ) R^{-1} ( B^T P ) + Q = 0\\
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}[Differential Riccati Equation]
+\begin{eqnarray*}
+A^T P(t) + P(t) A - ( P(t) B ) R^{-1} ( B^T P(t) ) + Q &=& - \dot{P} (t)\\
+\end{eqnarray*}
+\end{definition}
+
+\begin{definition}[Algebraic Riccati Equation]
+\begin{eqnarray*}
+A^T P + P A - ( P B ) R^{-1} ( B^T P ) + Q &=& 0\\
+\end{eqnarray*}
+\end{definition}
+
+\begin{lemma}
+
+We would like to solve for $P$ such that the eigenvalues of $A-BK=A-BR^{-1} B^T P$ are all in the negative left half plane. That is the stability for $x = e^{\lambda t} x_0$ solutions.
+
+\begin{eqnarray*}
+Z &\equiv& \begin{pmatrix}
+A & -BR^{-1}B^T\\
+-Q & -A^T\\
+\end{pmatrix}\\
+\end{eqnarray*}
+
+Assume no eigenvalues with real part $0$. Then have $n$ eigenvectors of $Z$ with negative real part. Write them as columns $\begin{pmatrix}U_1\\U_2\end{pmatrix}$ as a $2n$ by $n$ matrix. Then take $P=U_2 U_1^{-1}$.
+
+\end{lemma}
 
 \subsection{Climate Data}
 
