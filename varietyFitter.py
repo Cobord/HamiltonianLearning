@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-#import tensorflow as tf
 from sklearn.preprocessing import PolynomialFeatures
 
 import scipy
