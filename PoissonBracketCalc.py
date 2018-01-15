@@ -33,6 +33,10 @@ class Memoize:
     	    self.memo[args] = self.fn(*args)
         return self.memo[args]
 
+# takes two monomials ( without the c-number coefficient ) and returns the Poisson bracket thereof
+# for example gets x^2 p^3 and x^1 p^1
+# should return a list with the coefficients []
+# to say the Poisson bracket is ..
 #@Memoize
 def PoisHelper(monomial1,monomial2,numInputs,lengthSummands):
     returnFunction=np.zeros(lengthSummands)
@@ -41,8 +45,9 @@ def PoisHelper(monomial1,monomial2,numInputs,lengthSummands):
     if (totalDegree1 == 0 || totalDegree2 == 0):
         return returnFunction
     elif (totalDegree1 == 1 && totalDegree2 == 1):
-        
+        # two linear functions so check if they are canonically conjugate or not
 
+# take two expressions given as a list of coefficients and compute the Poisson bracket
 def PoisB(equation1,equation2,numInputs,poly):
     lengthSummands=equation1.size
     returnFunction=np.zeros_like(equation1)
