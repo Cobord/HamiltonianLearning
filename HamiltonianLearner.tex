@@ -551,6 +551,8 @@ A^T P + P A &-& ( P B ) R^{-1} ( B^T P ) + Q = 0\\
 \end{eqnarray*}
 \end{definition}
 
+The Hamilton-Jacobi-Bellman equations become
+
 \begin{definition}[Differential Riccati Equation]
 \begin{eqnarray*}
 A^T P(t) + P(t) A - ( P(t) B ) R^{-1} ( B^T P(t) ) + Q &=& - \dot{P} (t)\\
@@ -558,6 +560,9 @@ A^T P(t) + P(t) A - ( P(t) B ) R^{-1} ( B^T P(t) ) + Q &=& - \dot{P} (t)\\
 \end{definition}
 
 \begin{definition}[Algebraic Riccati Equation]
+
+If we assume the dynamics and cost functions have no explicit time dependence, this simplifies
+
 \begin{eqnarray*}
 A^T P + P A - ( P B ) R^{-1} ( B^T P ) + Q &=& 0\\
 \end{eqnarray*}
@@ -577,6 +582,11 @@ A & -BR^{-1}B^T\\
 Assume no eigenvalues with real part $0$. Then have $n$ eigenvectors of $Z$ with negative real part. Write them as columns $\begin{pmatrix}U_1\\U_2\end{pmatrix}$ as a $2n$ by $n$ matrix. Then take $P=U_2 U_1^{-1}$.
 
 \end{lemma}
+
+So in our setup, we do not know $A$ or $B$, those are determined from observing a trajectory first. Then once we have found them, we solve for the policy $P$.
+
+Recht - \url{https://arxiv.org/pdf/1802.08334.pdf}\\
+Jha,Bhasin - \url{https://www.sciencedirect.com/science/article/pii/S2405896317312582}
 
 \subsection{Climate Data}
 
