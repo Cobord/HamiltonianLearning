@@ -235,11 +235,15 @@
 
 \makeatother
 
-\title{Hamiltonian Learner ReadMe}
+\title{Machine Learning of Dynamical Systems}
 
 \begin{document}
 
 \maketitle
+
+\section{Introduction}
+
+Dynamical system identification has a long history \cite{HillsGrutterHudson,WibisonoWilsonJordan}. Here we take the insights gained from the symplectic ``category'' of Weinstein called $LagCor$ below and some inspiration from holomorphic symplectic geometry \cite{JinHolLag} in order to design a system that identifies algebraic dynamical systems from their trajectories.
 
 \section{Mathematical Background}
 
@@ -252,7 +256,7 @@ Let $\mathbb{R}^{2n}$ be our phase spaces with coordinates and conjugate momenta
 \frac{dp_i}{dt} &=& \setof{H,p_i} = - \frac{dH}{dx_i}\\
 \end{eqnarray*}
 
-This is not strictly mechanics despite the name. As an example:
+Despite the name, these systems do not have to strictly be mechanical. As an example:
 
 \begin{example}[Chemical Rate Equations]
 
@@ -303,19 +307,6 @@ Isotropic submanifolds have the property that $\omega \mid_I = 0$. A Lagrangian 
 
 Consider a pair of symplectic manifolds $X_{in,out}$. This stands for the inputs and outputs of a system. For example, it could be a black boxed electronic circuit. For each of the input wires there is an $\mathbb{R}^2$ for the current and voltage. These form a canonical conjugate pair for each of the wires. So for a circuit with $n$ input wires and $m$ output wires we get $\mathbb{R}^{2n}$ and $\mathbb{R}^{2m}$. To specify what the circuit is at this black boxed level we specify a morphism $X_{in} \to X_{out}$ in the following sense.
 
-\begin{definition}[LagCor]
-A morphism between symplectic manifolds in the ``category" LagCor is a Lagrangian correspondence. That is a Lagrangian submanifold of $X_{in} \times \bar{X}_{out}$. Composition of $L_{12}$ and $L_{23}$ is given by pullback if possible. That is a transversality condition with the diagonal in $X_2 \times \bar{X}_2$.
-
-\begin{tikzcd}
-& & L_{13} \arrow[dr] \arrow[dl]\\
-& L_{12} \arrow[dr] \arrow[dl] & & L_{23} \arrow[dl] \arrow[dr]\\
-X_1 & & X_2 & & X_3
-\end{tikzcd}
-
-\end{definition}
-
-Composition is simply piping some outputs into other inputs. By moving some wires around you are allowed to perform partial gluings so that you can feed some outputs of system 1 into system 2 and leave some outputs as free to go all the way to the end. Similarly for inputs to system 2 that don't come from system 1 but instead straight from the begining.
-
 \begin{definition}[Graphs of symplectomorphisms]
 For $X_1 = X_2$ a large class of morphisms $X_1 \to X_2$ is given by the graphs of symplectomorphisms $\phi \; X_1 \to X_2$. A symplectomorphism mean it is a diffeomorphism that preserve $\omega$. But these are special in the sense that if you specify the input, you uniquely know the output. Sets and relations is better than sets and functions.
 \end{definition}
@@ -324,7 +315,7 @@ For $X_1 = X_2$ a large class of morphisms $X_1 \to X_2$ is given by the graphs 
 Suppose we observe the state of a system at times $t_1$ and $t_2$. There is some symplectomorphism that implements this discretized dynamics. In fact it might be the time $t_2 - t_1$ flow of a (possibly time dependent) Hamiltonian. If we observe enough such state pairs, we have enough information to approximately reconstruct a Lagrangian correspondence (At least the closest approximation in the class of low degree polynomial varieties).
 \end{example}
 
-Nicely provided in \url{https://ncatlab.org/nlab/show/prequantized+Lagrangian+correspondence} with more context/generality. Mostly unneeded for now, though it provides the mindset.
+Nicely provided in \cite{nLab} with more context/generality. Mostly unneeded for now, though it provides the mindset.
 
 \subsubsection{Singular Lagrangians}
 
@@ -343,48 +334,26 @@ Let th symplectic manifold be $\mathbb{R}^2$ with magnetization and applied fiel
 
 This is thought of as a system with 0 inputs and $\mathbb{R}^2$ output. The dynamics is then constrained to this Lagrangian because once you specify the applied field you are stuck with either 1 or 2 values for the magnetization because of the equations of state. It is not a Lagrangian submanifold only because of those triple points.
 
-\subsection{Doubling Trick}
+\subsection{The ``category'' LagCor}
 
-Recall from Baez-Fong-... how certain linear circuit elements provide affine Lagrangian subspaces of current and voltage for inputs and outputs. This straightforward construction won't work for a memristor. However, we can double the number of variables by appending $\int_{-\infty}^t V$ and $\int_{-\infty}^t I$ as well. Because they have a fundamentally different nature compared to the original $V$ and $I$ give them homological degree 1. That is our new phase space is $T^* [1] \mathbb{R}^2$. This is the same trick used in the Poisson Sigma Model. You take a symplectic manifold $\mathbb{R}^2$, regard it merely as Poisson and then form a 1-shifted symplectic space by taking the odd cotangent bundle. Now instead of looking for Lagrangian Correspondences between $\mathbb{R}^2_{in}$ and $\mathbb{R}^2_{out}$, you look for Lagrangian correspondences between $T^*[1] \mathbb{R}^2_{in}$ and $T^* [1] \mathbb{R}^2_{out}$. This is the general situation that subsumes Baez et al, but also allows more general circuit elements.
+\begin{definition}[LagCor]
+A morphism between symplectic manifolds in the ``category" LagCor is a Lagrangian correspondence. That is a Lagrangian submanifold of $X_{in} \times \bar{X}_{out}$. Composition of $L_{12}$ and $L_{23}$ is given by pullback if possible. That is a transversality condition with the diagonal in $X_2 \times \bar{X}_2$.
 
-This is especially satisfying because that is the first step in Kontsevich quantization. It is the construction you needed to do anyway when quantizing, so it is satisfying to see it being useful even in the classical world.
+\begin{tikzcd}
+& & L_{13} \arrow[dr] \arrow[dl]\\
+& L_{12} \arrow[dr] \arrow[dl] & & L_{23} \arrow[dl] \arrow[dr]\\
+X_1 & & X_2 & & X_3
+\end{tikzcd}
 
-\section{Symmetric Hamiltonians}
-
-Consider the example of $n$ particles in $\mathbb{R}^3$. Then the phase space is $(\mathbb{R}^{6n})$ and there is a natural $Euc(3)$ action that we can expect to be a symmetry of the system. One can immediately write down that polynomials in $x_i$ and $p_i$ that correspond to the Noether charges. The Hamiltonian will then Poisson commute with these. This drastically reduces the space of potential choices for the gradient descent to operate in.
-
-\section{Down from Infinite Dimensional}
-
-Consider the problem for a PDE instead of an ODE. Let the space be $M$
-
-\begin{eqnarray*}
-\omega &=& \int_M \delta A \wedge \delta B\\
-\end{eqnarray*}
-
-See BF in BV-BFV for more explanation.
-
-Give a basis of $L^2 ( \Omega^\bullet (M))$ so that the integration pairing is adapted. Will explain by example on $\Omega^0 (S^2)$ and $\Omega^2 (S^2)$
-
-\begin{eqnarray*}
-e_{lm,0} &=& Y_l^m (\theta , \phi)^*\\
-e_{lm,2} &=& Y_l^m (\theta , \phi) dvol_{S^2}\\
-\end{eqnarray*}
-
-A complexified $0$ form $A$ and a complexified $2$ form $B$ can be decomposed in this basis and as can their variations.
-
-\begin{eqnarray*}
-\omega &=& \sum_{lm} \delta_{lm0} A \wedge \delta_{lm2} B + \cdots\\
-\end{eqnarray*}
-
-So this is taking a function on $S^2 \times \mathbb{R}$, decomposing each time slice into spherical harmonics and then asking if we can analyze the associated infinite dimensional Hamiltonian system. Of course realistically, it should be reasonable to approximate with some sufficient $L$ cutoff. There will be some relatively small $n(L)$ modes kept. This can then be fed into the machine with $\mathbb{R}^{2(n(L))}$.
-
-\begin{example}[Weather]
-Too bad typically don't have the data of the canonically conjugate field.
-\end{example}
-
-\begin{definition}[Kaluza-Klein Reduction]
-This is in particular a reduction from a $M \times \mathbb{R}$ spacetime to just mechanics with only $\mathbb{R}$ for time and no space. The cost is the infinite tower that is introduced like the fact that $lm$ run over a countably infinite range.
 \end{definition}
+
+Composition is simply piping some outputs into other inputs. By moving some wires around you are allowed to perform partial gluings so that you can feed some outputs of system 1 into system 2 and leave some outputs as free to go all the way to the end. Similarly for inputs to system 2 that don't come from system 1 but instead straight from the begining.
+
+For us the Lagrangians are varieties of degree $\leq d$ so we need to restrict our attention and use facts from intersection of algebraic cycles. These are all inspired from the theory of the derived category of motives. For practical implementability, we wish to find ways to guarantee transversality. This would allow us to restrict to a category level of $2$ rather than $\infty$ \cite{WehrheimWoodward}.
+
+\subsection{Symmetric Hamiltonians}
+
+Consider the example of $n$ particles in $\mathbb{R}^3$. Then the phase space is $(\mathbb{R}^{6n})$ and there is a natural $Euc(3)$ action that we can expect to be a symmetry of the system. One can immediately write down that polynomials in $x_i$ and $p_i$ that correspond to the Noether charges. The Hamiltonian will then Poisson commute with these. This drastically reduces the space of potential choices for the gradient descent to operate in. We can restrict to the space of polynomials in those $6n$ variables of degrees $\leq d$ that Poisson commute with all the Noether charges. A good start for these is simply polynomials in the Noether charges themselves.
 
 \section{Implementation}
 
@@ -442,8 +411,10 @@ However because of noise we cannot expect exactly $0$. Instead we say that we se
 
 \begin{cor}
 We can parallelize over the rows. That is we have some solutions that work for a subset of rows, and another bunch of solutions that work for another subset of the rows. If there is something in common there, we have a solution for the composite.\\
-This may or may not provide any advantage.
+This may or may not provide any speedup depending on the data size.
 \end{cor}
+
+Similar problems were studied in \cite{Sturmfels1802}
 
 \subsection{Lagrangian Subvariety Learning}
 
@@ -463,7 +434,7 @@ At the very extreme for a Lagrangian submanifold in $\mathbb{R}^{2n}$ we give a 
 
 \subsection{Bootstrapping}
 
-Now the easier problem of finding many conserved quantities is accomplished we can proceed to finding which is the actual Hamiltonian. Suppose the result from the previous step gave $f_1 \cdots f_n$ each with total degree $\abs{f}_i$. For example some of them might be $L_z$ for a rotationally symmetric system with a conserved angular momentum. So we know many potential Hamiltonians. Parameterize them with unknown coefficents.
+Now the easier problem of finding many conserved quantities is accomplished we can proceed to finding which is the actual Hamiltonian. This is thanks to the fact that we know the Hamiltonian is a conserved quantity itself, so it must be in the ideal found in the previous step. Suppose the result from the previous step gave $f_1 \cdots f_n$ each with total degree $\abs{f}_i$. For example some of them might be $L_z$ for a rotationally symmetric system with a conserved angular momentum. So we know many potential Hamiltonians. Parameterize them with unknown coefficents.
 
 \begin{eqnarray*}
 H &=& \sum_i a_i f_i + \sum_{ij} a_{ij} f_i f_j + \cdots\\
@@ -471,129 +442,8 @@ H &=& \sum_i a_i f_i + \sum_{ij} a_{ij} f_i f_j + \cdots\\
 
 Use the total degree to make this list finite and manageable. The Hamiltonian is unlikely to need a term like $L_z^{100}$ even though it is conserved so that is not even considered. With this reduced space of potential Hamiltonians, we proceed with the loss function of the previous section using the trajectory data. Before $H_{pol,3}$ had $10$ unknown parameters to do gradient descent with. But there is only one conserved quantity found by the simpler method so this is reduced to looking at $A + B f_1 + C f_1^2 + D f_1^3$ which is significantly easier.
 
-\section{Applications}
-
-\subsection{Circuits}
-
-Already described
-
-\subsection{Robotic Control and other Optimal Control problems}
-
-For a robot moving in 2 or 3 dimensions the configuration space is $SE(2)$ or $SE(3)$ or some products thereof for describing position and framing orientation. This means the phase space will be $T^* SE(3)$ etc. The dynamics will take place on that. To implement this we must restrict to a symplectic coordinate chart. If we stay within that one chart there is no problem with reducing to this already established problem.
-
-Often the problem is presented within the realm of optimal control. That would require adjoining the control variables to the Hamiltonian as well.
-
-\begin{thm}[Hamilton Jacobi]
-
-Let $P \; \; \alpha$ be an exact symplectic manifold not necessarily a cotangent bundle with Liouville form. Get a function on parameterized paths $\gamma$ by:
-
-\begin{eqnarray*}
-S (\gamma ) &=& \int_{[\gamma]} \alpha - \int_{t_0}^{t_1} H( \gamma (t) )\\
-\end{eqnarray*}
-
-where $[\gamma]$ is the unparameterized path. When not exact, $\alpha$ is now a connection on a line bundle so $S$ is now valued as a section instead.
-
-\begin{tikzcd}
-& \mathcal{L} \arrow[d]\\
-Paths(P) \arrow[r] \arrow[r,shift left] & (P,\omega)\\
-\end{tikzcd}
-
-\end{thm}
-
-\begin{thm}[Hamilton-Jacobi-Bellman]
-\begin{eqnarray*}
-V ( x(0) , 0 ) &=& min_u L\\
-L &=& \int_0^T C ( x(t), u(t)) dt + D(x(T))\\
-\dot{x} (t) &=& F ( x(t), u(t) )\\
-\dot{V} (x ,t ) &+& min_u \nabla V(x,t) \cdot F(x,u) + C(x,u) = 0\\
-V(x,T) &=& D(x)\\
-\end{eqnarray*}
-
-We then solve this PDE with that terminal condition for $V(x,t)$
-
-\end{thm}
-
-\begin{proof}
-\begin{eqnarray*}
-V(x(t),t) &=& min_u  \big( V(x(t+dt),t+dt) + \int_t^{t+dt} C(x(s),u(s)) ds \big)\\
-&\approx& min_u  \big( V(x(t),t) + \dot{V}(x(t),t) dt + \nabla V ( x(t) , t) \cdot \dot{x}(t) dt + \int_t^{t+dt} C(x(s),u(s)) ds \big)\\
-0 &\approx& min_u  \big( \dot{V}(x(t),t) dt + \nabla V ( x(t) , t) \cdot \dot{x}(t) dt + C(x(t),u(t)) dt \big)\\
-\end{eqnarray*}
-
-where the error is $o(dt)$. Taking this limit then provides the required PDE.
-
-\end{proof}
-
-\begin{lemma}[Principle of Optimality]
-An optimal control policy $u(t)$ has the property that if we drop the first step, the remaining policy is optimal for the new state. In other words, an optimal policy is like a shark it doesn't need to look back. It doesn't have a neck. \url{http://www.imdb.com/title/tt0584440/quotes}.
-\end{lemma}
-
-\begin{definition}[LQR]
-\begin{eqnarray*}
-\dot{x}(t) &=& A (t) x(t) + B(t) u(t)\\
-J = \frac{1}{2} x^T (t_1) F(t_1 ) x (t_1) &+& \frac{1}{2} \int_{t_0}^{t_1} ( x^T (t) Q (t) x (t) + u^T (t) R(t) u(t)  ) dt\\
-x (t_0 ) &=& x_0\\
-u(t) &=& - K(t) x(t)\\
-K(t) &=& R^{-1}(t) B^T(t) P (t)\\
-A^T (t) P(t) + P(t) A(t) &-& ( P(t) B(t) ) R^{-1}(t) ( B^T(t) P(t) ) + Q(t) = - \dot{P} (t)\\
-P(t_1 ) &=& P_f\\
-\end{eqnarray*}
-\end{definition}
-
-\begin{definition}[Infinite Horizon Problem]
-\begin{eqnarray*}
-\dot{x} &=& Ax + Bu\\
-J &=& \frac{1}{2} \int_{0}^{\infty} ( x^T Q x + u^T R u  ) dt\\
-x (0 ) &=& x_0\\
-u &=& - K x\\
-K &=& R^{-1} ( B^T P  )\\
-A^T P + P A &-& ( P B ) R^{-1} ( B^T P ) + Q = 0\\
-\end{eqnarray*}
-\end{definition}
-
-The Hamilton-Jacobi-Bellman equations become
-
-\begin{definition}[Differential Riccati Equation]
-\begin{eqnarray*}
-A^T P(t) + P(t) A - ( P(t) B ) R^{-1} ( B^T P(t) ) + Q &=& - \dot{P} (t)\\
-\end{eqnarray*}
-\end{definition}
-
-\begin{definition}[Algebraic Riccati Equation]
-
-If we assume the dynamics and cost functions have no explicit time dependence, this simplifies
-
-\begin{eqnarray*}
-A^T P + P A - ( P B ) R^{-1} ( B^T P ) + Q &=& 0\\
-\end{eqnarray*}
-\end{definition}
-
-\begin{lemma}
-
-We would like to solve for $P$ such that the eigenvalues of $A-BK=A-BR^{-1} B^T P$ are all in the negative left half plane. That is the stability for $x = e^{\lambda t} x_0$ solutions.
-
-\begin{eqnarray*}
-Z &\equiv& \begin{pmatrix}
-A & -BR^{-1}B^T\\
--Q & -A^T\\
-\end{pmatrix}\\
-\end{eqnarray*}
-
-Assume no eigenvalues with real part $0$. Then have $n$ eigenvectors of $Z$ with negative real part. Write them as columns $\begin{pmatrix}U_1\\U_2\end{pmatrix}$ as a $2n$ by $n$ matrix. Then take $P=U_2 U_1^{-1}$.
-
-\end{lemma}
-
-So in our setup, we do not know $A$ or $B$, those are determined from observing a trajectory first. Then once we have found them, we solve for the policy $P$.
-
-Recht - \url{https://arxiv.org/pdf/1802.08334.pdf}\\
-Jha,Bhasin - \url{https://www.sciencedirect.com/science/article/pii/S2405896317312582}
-
-\subsection{Climate Data}
-
-First must reduce from the infinite dimensional situation of functions on a sphere to a finite dimensional phase space which only keeps track of the low lying modes in some frame (generalized basis) of $L^2 ( S^2 , d \Omega )$. You plot the dynamics of these coefficents which is a lossy compression and hope to learn the dynamics there. This can be done iteratrively by starting with only keeping the 0th order, learning the dynamics then using that information for the initial guess in the next step and so on until the compression loss is sufficiently low.
-
-\subsection{Financial/Biodiversity}
-
-Is there a candidate for the conjugate variables for price data? Could just use the time derivative. Typically these are modeled as ARIMA processes, but the interactions between various entities should be close to generalized Lotka-Volterra type just like other predator-prey-cooperation systems. Already mentioned Hamiltonian realization of these sorts of networks.
+\bibliographystyle{alpha}
+\nocite{*}
+\bibliography{HamiltonianLearner}
 
 \end{document}
