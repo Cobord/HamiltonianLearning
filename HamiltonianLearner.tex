@@ -471,6 +471,34 @@ H &=& \sum_i a_i f_i + \sum_{ij} a_{ij} f_i f_j + \cdots\\
 
 Use the total degree to make this list finite and manageable. The Hamiltonian is unlikely to need a term like $L_z^{100}$ even though it is conserved so that is not even considered. With this reduced space of potential Hamiltonians, we proceed with the loss function of the previous section using the trajectory data. Before $H_{pol,3}$ had $10$ unknown parameters to do gradient descent with. But there is only one conserved quantity found by the simpler method so this is reduced to looking at $A + B f_1 + C f_1^2 + D f_1^3$ which is significantly easier.
 
+\section{Signatures}
+
+\begin{definition}[k-Signature]
+For a path $\psi \; \; [0,1] \to \mathbb{R}^m$, the $k$-signature is defined as the k'th order tensor whose components are
+
+\begin{eqnarray*}
+\sigma^{(k)} (\psi)_{i_1 \cdots i_k} &=& \int_0^1 \int_0^{t_k} \cdots \int_0^{t_2} d\psi_{i_1} (t_1) \cdots d\psi_{i_k} (t_k)
+\end{eqnarray*}
+
+For $k=1$, this gives $\psi(1)-\psi(0) \in \mathbb{R}^m$. For $k=2$ it is $\frac{1}{2} (\psi (1) - \psi(0) )^{\otimes 2} + Q$ where $Q_{ij}$ is the result of projecting $\psi$ to the coordinate plane indexed by $i$ and $j$ and finding the area between that curve as compared to a straight line segment between the endpoints.
+
+\end{definition}
+
+\begin{lemma}
+Under linear transformations $R$ of $\mathbb{R}^{m_1} \to \mathbb{R}^{m_2}$, each signature transforms with $R^{\otimes k}$ when the path is composed as $R \psi$.
+
+\begin{eqnarray*}
+\sigma^{(k)} (R \psi ) &=& R^{\otimes k} \sigma^{(k)} (\psi )
+\end{eqnarray*}
+
+\end{lemma}
+
+\begin{proof}
+\url{https://arxiv.org/pdf/1809.01588.pdf}
+\end{proof}
+
+So for our case, $m$ is even to be a symplectic manifold. Our trajectory is the path and we can compute some of the first few $k$ signatures as coarse invariants on which to set up loss functions. We can also compute those invariants for the flows of the trial Hamiltonians. Getting the low order signatures to match up is a potentially useful simplification.
+
 \section{Applications}
 
 \subsection{Circuits}
